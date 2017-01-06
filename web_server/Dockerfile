@@ -1,5 +1,19 @@
 # Ubuntu_Apache_PHP
 
+
+######################################################################
+# To Build:
+# docker build -t ivirus/web_server -f Dockerfile-web-server .
+#
+# XXX: The tag can contain ONLY lowercase letters and underscore
+#
+# To Run:
+# docker run -d -t --name web-server -p 80:80 ivirus/web_server
+# docker exec -d web-server service apache2 start
+#
+# TODO: Why the service does not starts automatically??
+######################################################################
+
 # We want to use latest Ubuntu LTS
 FROM ubuntu:latest
 
@@ -27,6 +41,3 @@ ADD ./web /web
 EXPOSE 80
 
 # TODO: Configuring for running HTTPS
-
-# Start the required services
-RUN service apache2 start

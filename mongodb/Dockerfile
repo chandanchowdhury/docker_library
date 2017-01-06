@@ -1,5 +1,16 @@
 # Ubuntu_MongoDB
 
+######################################################################
+#
+# To Build:
+# docker build -t ivirus/mongodb -f Dockerfile-mongodb .
+#
+# To Run:
+# docker run -d -t --name mongodb_instance_001 -p 27017:27017 ivirus/mongodb
+# docker exec -d mongodb_instance_001 /usr/bin/mongod --config /etc/mongod.conf &
+#
+######################################################################
+
 # We want to use latest Ubuntu LTS
 FROM ubuntu:latest
 
@@ -17,16 +28,21 @@ RUN apt-get -y dist-upgrade && apt-get -y upgrade
 # Install the required softwares
 RUN apt-get -y install mongodb-org nano
 
-# We will copy the required config files
-
 # Connect container volume
-VOLUME /dns/mongodb-store
+RUN mkdir /mongodb-store
 
-ADD ./mongodb-store /dns/mongodb-store
+# Create the volume
+VOLUME /mongodb-store
+
+# Connect with directory of host
+ADD ./mongodb-store /mongodb-store
+
+# We will copy the required config files
+COPY mongod.conf /etc/mongod.conf
 
 # Expose the required ports so we can access them in the host
 EXPOSE 27017
 
 # Start the required services
 # RUN service mongod start
-# RUN /usr/bin/mongod --config /etc/mongod.conf &
+# TODO: Why the service is not found??
